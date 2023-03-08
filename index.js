@@ -23,9 +23,12 @@ https.get(options, function (res) {
     res.on('end', function () {
         if (res.statusCode === 200) {
             try {
-                let data = JSON.parse(json);
+                let data = JSON.parse(json).data.children;
                 
-                console.log(data.data.children);
+                //console.log(data);
+                for (i in data){
+                    urls.push(data[i].data.url);
+                }
                 console.table(urls);
 
             } catch (e) {
