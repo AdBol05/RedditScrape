@@ -17,7 +17,7 @@ readline.question('Enter subreddit name: ', sub => {
 
     let urls = [];
 
-    console.log("Input url: " + options.host + source + "\nRetrieved links:");
+    console.log("Input url: " + options.host + source + "\nPlease wait...");
 
     https.get(options, function (res) {
         let json = '';
@@ -26,6 +26,7 @@ readline.question('Enter subreddit name: ', sub => {
         res.on('end', function () {
             if (res.statusCode === 200) {
                 try {
+                    console.log("Retrieved links:");
                     let data = JSON.parse(json).data.children;
                     for (i in data) {urls.push(data[i].data.url);}
                     console.table(urls);
