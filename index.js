@@ -1,6 +1,9 @@
 const https = require("https");
 
 let source = process.argv.slice(2)[0];
+
+source = "/" + source + ".json"
+
 let options = {
     host: "www.reddit.com",
     path: source,
