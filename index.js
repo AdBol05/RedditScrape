@@ -4,7 +4,7 @@ const readline = require('readline').createInterface({
     output: process.stdout
 });
 
-let source = "/r/";// + source + ".json"
+let source = "/r/";
 readline.question('Enter subreddit name: ', sub => {
     source = source + sub + ".json";
     readline.close();
