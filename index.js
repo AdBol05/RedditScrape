@@ -15,9 +15,9 @@ readline.question('Enter subreddit name and number of results [<name> <number>]:
 
     let urls = [];
     let options = {};
-    
+
     if (arg[0] == "tor") {
-        console.log("Routing via tor network...");
+        console.log("Routing via tor network");
         const { SocksProxyAgent } = require("socks-proxy-agent");
         const proxy = new SocksProxyAgent("socks://127.0.0.1:9050");
         options = {
