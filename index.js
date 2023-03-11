@@ -34,7 +34,7 @@ readline.question('Enter subreddit name and number of results [<name> <number>]:
         };
     }
 
-    console.log("Input url: " + options.host + source + "\nPlease wait...");
+    console.log("Sending https get request to: " + options.host + source + "\nPlease wait...");
     https.get(options, function (res) {
         let json = '';
 
