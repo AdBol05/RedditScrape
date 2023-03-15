@@ -7,7 +7,7 @@ const readline = require('readline').createInterface({
 let arg = process.argv.splice(2);
 
 let source = "/r/";
-readline.question('Enter subreddit name and number of results [<name> <number>]: ', sub => {
+readline.question('Enter subreddit name and number of results <name> [number]: ', sub => {
     let args = sub.split(" ");
     if (args[1] === undefined) { args[1] = "30" }
     source = source + args[0] + ".json?limit=" + args[1];
