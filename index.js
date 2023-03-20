@@ -13,7 +13,7 @@ readline.question('Enter subreddit name and number of results <name> [number]: '
     source = source + args[0] + ".json?limit=" + args[1];
     readline.close();
 
-    let urls = [];
+    let output = [];
     let options = {};
 
     if (arg[0] == "tor") {
@@ -44,8 +44,8 @@ readline.question('Enter subreddit name and number of results <name> [number]: '
                 try {
                     console.log("Retrieved links:");
                     let data = JSON.parse(json).data.children;
-                    for (i in data) { urls.push(data[i].data.url); }
-                    console.table(urls);
+                    for (i in data) { output.push({title: data[i].data.title, link: data[i].data.url}); }
+                    console.table(output);
                 }
                 catch (e) { console.log('Error parsing JSON!\n' + e); }
             }
