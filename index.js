@@ -5,8 +5,15 @@ const readline = require('readline').createInterface({
 });
 
 let arg = process.argv.splice(2);
-
 let source = "/r/";
+
+console.log('\x1b[32m%s\x1b[0m',"    ____           __    ___ __  _____                          ");
+console.log('\x1b[32m%s\x1b[0m',"   / __ \\___  ____/ /___/ (_) /_/ ___/______________ _____  ___ ");
+console.log('\x1b[32m%s\x1b[0m',"  / /_/ / _ \\/ __  / __  / / __/\\__ \\/ ___/ ___/ __ `/ __ \\/ _ \\");
+console.log('\x1b[32m%s\x1b[0m'," / _, _/  __/ /_/ / /_/ / / /_ ___/ / /__/ /  / /_/ / /_/ /  __/");
+console.log('\x1b[32m%s\x1b[0m',"/_/ |_|\\___/\\__,_/\\__,_/_/\\__//____/\\___/_/   \\__,_/ .___/\\___/ ");
+console.log('\x1b[32m%s\x1b[0m',"                                               /_/           \n");
+
 readline.question('Enter subreddit name and number of results <name> [number]: ', sub => {
     let args = sub.split(" ");
     if (args[1] === undefined) { args[1] = "30" }
