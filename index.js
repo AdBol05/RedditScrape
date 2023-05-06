@@ -7,39 +7,32 @@ const readline = require('readline').createInterface({
 let arg = process.argv.splice(2);
 let source = "/r/";
 
-console.log('\x1b[32m%s\x1b[0m',"    ____           __    ___ __  _____                          ");
-console.log('\x1b[32m%s\x1b[0m',"   / __ \\___  ____/ /___/ (_) /_/ ___/______________ _____  ___ ");
-console.log('\x1b[32m%s\x1b[0m',"  / /_/ / _ \\/ __  / __  / / __/\\__ \\/ ___/ ___/ __ `/ __ \\/ _ \\");
-console.log('\x1b[32m%s\x1b[0m'," / _, _/  __/ /_/ / /_/ / / /_ ___/ / /__/ /  / /_/ / /_/ /  __/");
-console.log('\x1b[32m%s\x1b[0m',"/_/ |_|\\___/\\__,_/\\__,_/_/\\__//____/\\___/_/   \\__,_/ .___/\\___/ ");
-console.log('\x1b[32m%s\x1b[0m',"                                               /_/           \n");
+console.log('\x1b[32m%s\x1b[0m', "    ____           __    ___ __  _____                          ");
+console.log('\x1b[32m%s\x1b[0m', "   / __ \\___  ____/ /___/ (_) /_/ ___/______________ _____  ___ ");
+console.log('\x1b[32m%s\x1b[0m', "  / /_/ / _ \\/ __  / __  / / __/\\__ \\/ ___/ ___/ __ `/ __ \\/ _ \\");
+console.log('\x1b[32m%s\x1b[0m', " / _, _/  __/ /_/ / /_/ / / /_ ___/ / /__/ /  / /_/ / /_/ /  __/");
+console.log('\x1b[32m%s\x1b[0m', "/_/ |_|\\___/\\__,_/\\__,_/_/\\__//____/\\___/_/   \\__,_/ .___/\\___/ ");
+console.log('\x1b[32m%s\x1b[0m', "                                               /_/           \n");
+
+if (arg[0] == "tor") {
+    console.log("Routing via tor network...");
+    const { SocksProxyAgent } = require("socks-proxy-agent");
+    global.proxy = new SocksProxyAgent("socks://127.0.0.1:9150");
+}
 
 readline.question('Enter subreddit name and number of results <name> [number]: ', sub => {
     let args = sub.split(" ");
-    if (args[1] === undefined) { args[1] = "30" }
-    source = source + args[0] + ".json?limit=" + args[1];
+    source = source + args[0] + ".json";
+    if (args[1]) { source = source + "?limit=" + args[1]; }
     readline.close();
 
     let output = [];
-    let options = {};
-
-    if (arg[0] == "tor") {
-        console.log("Routing via tor network");
-        const { SocksProxyAgent } = require("socks-proxy-agent");
-        const proxy = new SocksProxyAgent("socks://127.0.0.1:9150");
-        options = {
-            host: "www.reddit.com",
-            path: source,
-            agent: proxy
-        };
-    }
-    else {
-        options = {
-            host: "www.reddit.com",
-            path: source,
-            headers: { "user-agent": "request" }
-        };
-    }
+    let options = {
+        host: "www.reddit.com",
+        path: source,
+        agent: arg[0] == "tor" ? proxy : undefined,
+        headers: { "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" }
+    };
 
     console.log("Sending https get request to: " + options.host + source + "\nPlease wait...");
     https.get(options, function (res) {
@@ -51,7 +44,7 @@ readline.question('Enter subreddit name and number of results <name> [number]: '
                 try {
                     console.log("Retrieved links:");
                     let data = JSON.parse(json).data.children;
-                    for (i in data) { output.push({title: data[i].data.title, link: data[i].data.url}); }
+                    for (i in data) { output.push({ title: data[i].data.title, link: data[i].data.url }); }
                     console.table(output);
                 }
                 catch (e) { console.log('Error parsing JSON!\n' + e); }
