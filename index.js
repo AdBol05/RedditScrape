@@ -31,7 +31,7 @@ readline.question('Enter subreddit name and number of results <name> [number]: '
 
     let output = [];
     let options = {
-        host: "www.reddit.com",
+        host: arg[0] == "tor" ? "www.reddittorjg6rue252oqsxryoxengawnmo46qy4kyii5wtqnwfj4ooad.onion" : "www.reddit.com",
         path: source,
         agent: arg[0] == "tor" ? proxy : undefined,
         headers: { "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" }
