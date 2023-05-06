@@ -15,7 +15,7 @@ console.log('\x1b[32m%s\x1b[0m', "/_/ |_|\\___/\\__,_/\\__,_/_/\\__//____/\\___/
 console.log('\x1b[32m%s\x1b[0m', "                                               /_/           \n");
 
 if (arg[0] == "tor") {
-    console.log("Routing via tor network...");
+    console.log("Routing via TOR network");
     const { SocksProxyAgent } = require("socks-proxy-agent");
     global.proxy = new SocksProxyAgent("socks://127.0.0.1:9150");
 }
@@ -45,17 +45,18 @@ readline.question('Enter subreddit name and number of results <name> [number]: '
         res.on('end', function () {
             if (res.statusCode === 200) {
                 try {
-                    console.log("Retrieved links:");
+                    console.log("Retrieved data:");
                     let data = JSON.parse(json).data.children;
                     for (i in data) { output.push({ title: data[i].data.title, link: data[i].data.url }); }
                     console.table(output);
                 }
-                catch (e) { console.log('Error parsing JSON!\n' + e); }
+                catch (e) { console.error('\x1b[31m%s\x1b[0m',"\nError pasing JSON\n" + e); process.exit(1); }
             }
             else { console.log('Status:', res.statusCode); }
         });
 
     }).on('error', function (err) {
+        if(err.message == "connect ECONNREFUSED 127.0.0.1:9150"){console.error('\x1b[31m%s\x1b[0m',"\nUnable to connect to TOR proxy!\nCheck if TOR proxy is running on port 9150"); process.exit(1);}
         console.log('Error:', err);
     });
 });
